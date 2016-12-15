@@ -1,0 +1,23 @@
+#!groovy
+
+node {
+
+   // Deploy the created S2I Image
+   stage 'OpenShift Deployment'
+   openshiftDeploy apiURL: '', authToken: '', depCfg: 'ticketmonster', namespace: 'ticketmonster-test', verbose: 'false', waitTime: '60000'
+   openshiftScale apiURL: '', authToken: '', depCfg: 'ticketmonster', namespace: 'ticketmonster-test', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'false'
+   openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: 'ticketmonster', namespace: 'ticketmonster-test', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'false', waitTime: ''
+
+   stage 'Verify Service'
+   // Starting the ticketmonster application takes a long time.
+   // Retrying 5 times to contact the service to make sure
+   // we give enough time for the container to be fully ready.
+   retry(5) {
+     openshiftVerifyService apiURL: '', authToken: '', namespace: 'ticketmonster-test', svcName: 'ticketmonster', verbose: 'false'
+   }
+
+   stage 'Tag Image - ProdReady'
+   openshiftTag alias: 'false', apiURL: '', authToken: '', destStream: 'ticketmonster', destTag: 'ProdReady', destinationAuthToken: '', destinationNamespace: 'ticketmonster-dev', namespace: 'ticketmonster-dev', srcStream: 'ticketmonster', srcTag: 'TestingCandidate', verbose: 'false'
+
+}
+
