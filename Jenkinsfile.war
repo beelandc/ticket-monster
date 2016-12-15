@@ -13,9 +13,11 @@ node('maven') {
    sh "mvn clean package deploy -s config/nexus-hardcoded-settings.xml"
    // sh "mvn clean package -DskipTests"
 
-    withSonarQubeEnv('http://sonarqube-ci.cbeeland.codeforchs.org/') {
+   stage 'Run SonarQube Analysis'
+
+    withSonarQubeEnv('OCP Sonar Server') {
       // requires SonarQube Scanner for Maven 3.2+
-      sh 'mvn sonar:sonar'
+      sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
     }
 
    // Second Stage: Save the WAR file for later use
