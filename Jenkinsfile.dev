@@ -24,5 +24,9 @@ node {
    retry(5) {
      openshiftVerifyService apiURL: '', authToken: '', namespace: 'ticketmonster-dev', svcName: 'ticketmonster', verbose: 'false'
    }
+
+   stage 'Tag Image - TestingCandidate'
+   openshiftTag alias: 'false', apiURL: '', authToken: '', destStream: 'ticketmonster', destTag: 'TestingCandidate', destinationAuthToken: '', destinationNamespace: 'ticketmonster-dev', namespace: 'ticketmonster-dev', srcStream: 'ticketmonster', srcTag: 'latest', verbose: 'false'
+
 }
 
