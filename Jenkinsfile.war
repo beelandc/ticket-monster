@@ -13,7 +13,7 @@ node('maven') {
    sh "mvn clean package -s config/nexus-hardcoded-settings.xml"
    // sh "mvn clean package -DskipTests"
 
-   stage 'Deploy war file
+   stage 'Deploy war file'
 
    sh "mvn deploy -s config/nexus-hardcoded-settings.xml"
 
