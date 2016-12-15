@@ -19,12 +19,12 @@ node('maven') {
 
    stage 'Run SonarQube Analysis'
 
-   sh "mvn sonar:sonar -s config/nexus-hardcoded-settings.xml"
+   //sh "mvn sonar:sonar -s config/nexus-hardcoded-settings.xml"
 
-    //withSonarQubeEnv('OCP Sonar Server') {
+    withSonarQubeEnv('OCP Sonar Server') {
       // requires SonarQube Scanner for Maven 3.2+
-    //  sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
-    //}
+      sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
+    }
 
    // Second Stage: Save the WAR file for later use
    stage 'Archive war'
