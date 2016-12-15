@@ -1,0 +1,28 @@
+#!groovy
+
+node {
+   // Invoke ticketmonster-maven-build-pipeline Build to create the ticket-monster.war file
+   stage 'Build ticketmonster'
+   build 'ticketmonster-maven-build-pipeline'
+
+   // Invoke OpenShift Build to package the ticket-monster.war file
+   // with the S2I image.
+   stage 'OpenShift Build'
+   openshiftBuild apiURL: '', authToken: '', bldCfg: 'ticketmonster', checkForTriggeredDeployments: 'false', namespace: 'ticketmonster-dev', verbose: 'false'
+   openshiftVerifyBuild apiURL: '', authToken: '', bldCfg: 'ticketmonster', checkForTriggeredDeployments: 'false', namespace: 'ticketmonster-dev', verbose: 'false'
+
+   // Deploy the created S2I Image
+   stage 'OpenShift Deployment'
+   openshiftDeploy apiURL: '', authToken: '', depCfg: 'ticketmonster', namespace: 'ticketmonster-dev', verbose: 'false', waitTime: '15000'
+   openshiftScale apiURL: '', authToken: '', depCfg: 'ticketmonster', namespace: 'ticketmonster-dev', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'false'
+   openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: 'ticketmonster', namespace: 'ticketmonster-dev', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'false', waitTime: ''
+
+   stage 'Verify Service'
+   // Starting the ticketmonster application takes a long time.
+   // Retrying 5 times to contact the service to make sure
+   // we give enough time for the container to be fully ready.
+   retry(5) {
+     openshiftVerifyService apiURL: '', authToken: '', namespace: 'ticketmonster-dev', svcName: 'ticketmonster', verbose: 'false'
+   }
+}
+
