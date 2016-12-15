@@ -162,7 +162,16 @@ under the License.
       <name>Human Readable Name for this Mirror.</name>
       <url>http://my.repository.com/repo/path</url>
     </mirror>
+
+jboss-public-repository-group,maven2-repository.dev.java.net,fcrepo-snapshot,fcrepo-thirdparty
+
      -->
+    <mirror>
+     <id>cbeeland-nexus-mirror</id>
+     <mirrorOf>central,redhat-techpreview-all-repository,fusesource,jboss-fuse,redhat-earlyaccess-all-repository</mirrorOf>
+     <url>http://nexus-ci.cbeeland.codeforchs.org/content/groups/public/</url>
+    </mirror>
+
   </mirrors>
 
   <!-- profiles
@@ -256,7 +265,7 @@ under the License.
       <id>redhat-techpreview-all-repository</id>
       <repositories>
 	<repository>
-          <id>MVN Central</id>
+          <id>central</id>
           <url>http://repo.maven.apache.org/maven2/</url>
           <snapshots>
             <enabled>false</enabled>
