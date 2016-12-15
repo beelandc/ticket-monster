@@ -80,6 +80,7 @@ under the License.
      | Specifies a further group identifier to use for plugin lookup.
     <pluginGroup>com.your.plugins</pluginGroup>
     -->
+        <pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
   </pluginGroups>
 
   <!-- proxies
@@ -263,6 +264,12 @@ jboss-public-repository-group,maven2-repository.dev.java.net,fcrepo-snapshot,fcr
 
     <profile>
       <id>redhat-techpreview-all-repository</id>
+
+      <properties>
+        <!-- Optional URL to server. Default value is http://localhost:9000 -->
+        <sonar.host.url>http://sonarqube-ci.cbeeland.codeforchs.org/</sonar.host.url>
+      </properties>
+
       <repositories>
 	<repository>
           <id>central</id>
