@@ -4,21 +4,27 @@
 // Maven Slaves have JDK and Maven already installed
 node('maven') {
    // First stage: Build the War File
-   stage 'Build war file'
+   stage 'Test & Build war file'
 
    // Get Source Code from SCM (Git) as configured in the Jenkins Project
    checkout scm
 
    // Now invoke the Maven Build
-   sh "mvn clean package deploy -s config/nexus-hardcoded-settings.xml"
+   sh "mvn clean package -s config/nexus-hardcoded-settings.xml"
    // sh "mvn clean package -DskipTests"
+
+   stage 'Deploy war file
+
+   sh "mvn deploy -s config/nexus-hardcoded-settings.xml"
 
    stage 'Run SonarQube Analysis'
 
-    withSonarQubeEnv('OCP Sonar Server') {
+   sh "mvn sonar:sonar -s config/nexus-hardcoded-settings.xml"
+
+    //withSonarQubeEnv('OCP Sonar Server') {
       // requires SonarQube Scanner for Maven 3.2+
-      sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
-    }
+    //  sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar'
+    //}
 
    // Second Stage: Save the WAR file for later use
    stage 'Archive war'
