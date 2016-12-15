@@ -11,7 +11,8 @@ node('maven') {
 
    // Now invoke the Maven Build
    sh "mvn clean package -s config/nexus-hardcoded-settings.xml"
-   // sh "mvn clean package -DskipTests"
+   
+   junit 'target/test-reports/*.xml'
 
    stage 'Deploy war file'
 
