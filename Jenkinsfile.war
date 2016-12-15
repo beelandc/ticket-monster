@@ -10,7 +10,7 @@ node('maven') {
    checkout scm
 
    // Now invoke the Maven Build
-   sh "mvn clean package -Parq-jbossas-managed -s config/nexus-hardcoded-settings.xml"
+   sh "mvn clean package -Parq-wildfly-managed -s config/nexus-hardcoded-settings.xml"
    
    junit 'target/surefire-reports/*.xml'
 
