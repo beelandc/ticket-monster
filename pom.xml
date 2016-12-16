@@ -295,7 +295,7 @@
         Arquillian tests that execute in the specified container -->
       <id>default</id>
       <activation>
-        <activeByDefault>true</activeByDefault>
+        <activeByDefault>false</activeByDefault>
       </activation>
       <build>
         <plugins>
@@ -466,6 +466,9 @@
       <!-- An optional profile that enables a server managed postgresql data 
         source -->
       <id>postgresql</id>
+      <activation>
+	<activeByDefault>true</activeByDefault>
+      </activation>
       <build>
         <resources>
           <resource>
