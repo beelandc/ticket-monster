@@ -3,20 +3,18 @@
 // Run this node on a Maven Slave
 // Maven Slaves have JDK and Maven already installed
 node('maven') {
-   // First stage: Build the War File
-   stage 'Build war file'
 
    // Get Source Code from SCM (Git) as configured in the Jenkins Project
+   stage 'Checkout SCM'
    checkout scm
 
-   // Now invoke the Maven Build
+   // Stage: Run Arquillian Tests
+   stage 'Run Arquillian Tests'
    sh "mvn clean package -Parq-wildfly-managed -s config/nexus-hardcoded-settings.xml"
-   
    junit 'target/surefire-reports/*.xml'
 
    stage 'Deploy war file'
-
-   sh "mvn deploy -s config/nexus-hardcoded-settings.xml"
+   sh "mvn deploy -ppostgresql -s config/nexus-hardcoded-settings.xml"
 
    stage 'Run SonarQube Analysis'
 
