@@ -293,10 +293,7 @@
         run just unit tests based on a custom pattern -->
       <!-- Separate profiles are provided for running all tests, including 
         Arquillian tests that execute in the specified container -->
-      <id>default</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
+      <id>ORIG-default</id>
       <build>
         <plugins>
           <plugin>
@@ -467,7 +464,7 @@
         source -->
       <id>postgresql</id>
       <activation>
-	<activeByDefault>true</activeByDefault>
+        <activeByDefault>true</activeByDefault>
       </activation>
       <build>
         <resources>
