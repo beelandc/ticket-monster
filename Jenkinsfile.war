@@ -14,7 +14,7 @@ node('maven') {
    junit 'target/surefire-reports/*.xml'
 
    stage 'Deploy war file'
-   sh "mvn deploy -ppostgresql -s config/nexus-hardcoded-settings.xml"
+   sh "mvn deploy -Ppostgresql -s config/nexus-hardcoded-settings.xml"
 
    stage 'Run SonarQube Analysis'
 
