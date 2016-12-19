@@ -4,7 +4,7 @@ node {
 
    // Deploy the created S2I Image
    stage 'OpenShift Deployment'
-   openshiftDeploy apiURL: '', authToken: '', depCfg: 'ticketmonster', namespace: 'ticketmonster-test', verbose: 'false', waitTime: '60000'
+   openshiftDeploy apiURL: '', authToken: '', depCfg: 'ticketmonster', namespace: 'ticketmonster-test', verbose: 'false', waitTime: '300000'
    openshiftScale apiURL: '', authToken: '', depCfg: 'ticketmonster', namespace: 'ticketmonster-test', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'false'
    openshiftVerifyDeployment apiURL: '', authToken: '', depCfg: 'ticketmonster', namespace: 'ticketmonster-test', replicaCount: '1', verbose: 'false', verifyReplicaCount: 'false', waitTime: ''
 
